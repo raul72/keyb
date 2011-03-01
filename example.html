@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>KeyB Example</title>
+	<style type="text/css">
+	* {
+		margin: 0px;
+		padding: 0px;
+	}
+	body {
+		background-color: #ffffff;
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		font-size: 10px;
+		color: #000000;
+	}
+	#content {
+		border: 1px solid black;
+		margin: 10px auto 0px auto;
+		height: 500px;
+		width: 500px;
+		position: relative;
+	}
+	</style>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="keyb.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+
+		keyb.setAliases({
+			38: 'up',
+			37: 'left',
+			40: 'down',
+			39: 'right',
+			87: 'up',
+			65: 'left',
+			83: 'down',
+			68: 'right'
+		});
+
+		$('#content').html(
+			$('<div/>').attr('id', 'obj')
+			.css({
+				width: '20px',
+				height: '20px',
+				background: '#008800 none no-repeat left top',
+				position: 'absolute',
+				left: '245px',
+				top: '245px'
+			})
+			.html('&nbsp;')
+		);
+
+		var direction = '',
+			obj = $('#obj'),
+			max_left = $('#content').width()-obj.width(),
+			max_top = $('#content').height()-obj.height(),
+			lastkey = false;
+
+		// save last key that was pressed
+		keyb.attachEvent(function(key, down){
+			if (down) {
+				lastkey = key;
+			}
+		});
+
+		function moveme() {
+
+			// keybord interaction, where should object go
+			if (lastkey && keyb.down[lastkey]) {
+				// key that was presed last gets priority
+				direction = lastkey;
+			} else if (keyb.down.left) {
+				direction = 'left';			
+			} else if (keyb.down.right) {
+				direction = 'right';				
+			} else if (keyb.down.up) {
+				direction = 'up';				
+			} else if (keyb.down.down) {
+				direction = 'down';			
+			} else {
+				// no movement key is down, don't move
+				direction = '';
+				return;
+			}
+
+			var c_pos, // current position on grid
+				d_pos, // destination grid position
+				axis,  // left or top
+				mv_px = 10; // amount of px to move
+
+			// where to go and can we go there
+			switch (direction) {
+				case 'left':
+					c_pos = parseInt(obj.css('left'), 10);
+					if (c_pos === 0) {
+						return;
+					}
+					axis = 'left';
+					d_pos = c_pos - mv_px;
+					if (d_pos < 0) {
+						d_pos = 0;
+					}
+				break;
+				case 'right':
+					c_pos = parseInt(obj.css('left'), 10);
+					if (c_pos === max_left) {
+						return;
+					}
+					axis = 'left';
+					d_pos = c_pos + mv_px;
+					if (d_pos > max_left) {
+						d_pos = max_left;
+					}
+				break;
+				
+				case 'up':
+					c_pos = parseInt(obj.css('top'), 10);
+					if (c_pos === 0) {
+						return;
+					}					
+					axis = 'top';
+					d_pos = c_pos - mv_px;					
+					if (d_pos < 0) {
+						d_pos = 0;
+					}
+				break;
+				case 'down':
+					c_pos = parseInt(obj.css('top'), 10);
+					if (c_pos === max_top) {
+						return;
+					}
+					axis = 'top';
+					d_pos = c_pos + mv_px;					
+					if (d_pos > max_top) {
+						d_pos = max_top;
+					}
+				break;
+				default:
+					return;
+			}
+
+			// move element
+			obj.css(axis, d_pos);
+		}
+
+		// start listening if key is pressed
+		keyb.startListening();
+		// run fn that checks and moves object if key down
+		window.setInterval(function(){moveme();}, 50);
+	});
+	</script>
+</head>
+<body>
+<h1>KeyB Example</h1>
+<center>
+	<div id="content">&nbsp;</div>
+</center>
+</body>
+</html>

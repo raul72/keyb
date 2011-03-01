@@ -70,13 +70,13 @@
 				// key that was presed last gets priority
 				direction = lastkey;
 			} else if (keyb.down.left) {
-				direction = 'left';			
+				direction = 'left';
 			} else if (keyb.down.right) {
-				direction = 'right';				
+				direction = 'right';
 			} else if (keyb.down.up) {
-				direction = 'up';				
+				direction = 'up';
 			} else if (keyb.down.down) {
-				direction = 'down';			
+				direction = 'down';
 			} else {
 				// no movement key is down, don't move
 				direction = '';
@@ -112,14 +112,14 @@
 						d_pos = max_left;
 					}
 				break;
-				
+
 				case 'up':
 					c_pos = parseInt(obj.css('top'), 10);
 					if (c_pos === 0) {
 						return;
-					}					
+					}
 					axis = 'top';
-					d_pos = c_pos - mv_px;					
+					d_pos = c_pos - mv_px;
 					if (d_pos < 0) {
 						d_pos = 0;
 					}
@@ -130,7 +130,7 @@
 						return;
 					}
 					axis = 'top';
-					d_pos = c_pos + mv_px;					
+					d_pos = c_pos + mv_px;
 					if (d_pos > max_top) {
 						d_pos = max_top;
 					}

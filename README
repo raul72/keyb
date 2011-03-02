@@ -3,6 +3,21 @@ USAGE
 // set aliases
 // NOTE: this is the only place keyCodes are set, after this point all actions are done using aliases
 keyb.setAliases({37: 'left', 38: 'up', 39: 'right', 40: 'down'});
+
+// NOTE: You can have multiple keyCodes trigger the same alias (event):
+keyb.setAliases({
+	37: 'left',   // left arrow key
+	65: 'left',   // a key
+ 
+	38: 'up',     // up arrow key
+	87: 'up',     // w key
+ 
+	39: 'right',  // right arrow key
+	68: 'right'   // d key
+ 
+	40: 'down',   // down arrow key
+	83: 'down',   // s key
+});
  
 // start listening to document keyUp keyDown events
 keyb.startListening();

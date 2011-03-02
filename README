@@ -1,0 +1,47 @@
+USAGE
+===============================
+// set aliases
+// NOTE: this is the only place keyCodes are set, after this point all actions are done using aliases
+keyb.setAliases({37: 'left', 38: 'up', 39: 'right', 40: 'down'});
+ 
+// start listening to document keyUp keyDown events
+keyb.startListening();
+ 
+// attach an event to the right arrow key right arrow key
+keyb.attachKeyDownEvent('right', function() {
+	$('#debug').html('Key Down event executed for <b>right<b/> arrow key');
+});
+ 
+// check if right arrow key is down
+// NOTE: the keyb.down value for a key is undefined until the key is pressed,
+//       after that value is true if key is down, false if key up
+if (keyb.down['right']) {
+	// yes right arrow key is down
+} else {
+	// no right arrow key is not down
+}
+ 
+// stop listening to keyEvents (the keyb variable won't be updated after this)
+keyb.stopListening();
+ 
+// deattach event (attach fn1, fn2, fn3 - deattach fn2 - only fn1 and fn3 are executed on keyDown event)
+keyb.attachKeyDownEvent('up', fn1);
+keyb.attachKeyDownEvent('up', fn2);
+keyb.attachKeyDownEvent('up', fn3);
+ 
+keyb.deattachKeyDownEvent('up', fn2);
+ 
+ 
+// misc example:
+keyhit = function(key) {
+	// heh funny but seems that if more that 2 arrow keys are down, only the first 2 are registered
+	var msg = 'key '+key+' was pressed <br>'+
+	          'down arrow key is currently ' + (keyb.down['down'] ? '<b>down</b>' : 'up') + '<br>' +
+	          'left arrow key is currently ' + (keyb.down['left'] ? '<b>down</b>' : 'up') + '<br>' +
+	          'right arrow key is currently ' + (keyb.down['right'] ? '<b>down</b>' : 'up') + '<br>' +
+	          'up arrow key is currently ' + (keyb.down['up'] ? '<b>down</b>' : 'up');
+	$('#debug').html(msg);
+};
+keyb.attachKeyDownEvent('down', keyhit);
+keyb.attachKeyDownEvent('left', keyhit);
+keyb.attachKeyDownEvent('up', keyhit);

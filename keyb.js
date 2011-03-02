@@ -133,6 +133,7 @@
 		jQuery(document).keydown(keyDownListener).keyup(keyUpListener);
 	};
 	keyb.stopListening = function () {
+		// TODO: mark all keys as up?
 		jQuery(document).unbind('keydown', keyDownListener).unbind('keyup', keyUpListener);
 	};
 

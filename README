@@ -1,3 +1,57 @@
+KeyB - Keyboard event handler
+
+ABOUT
+===============================
+KeyB was originally built as helper to create smooth object movement
+by keyboard interaction (see example to see result)
+
+KeyB allows:
+ * set keyCode aliases (no need to use keyCodes in your code)
+ * set same key alias for multiple keys
+ * check if any defined key is currently down or not
+ * attach keyDown events to certain keys (no need to check what key was pressed in function)
+
+METHODS
+===============================
+setAliases
+Set keyCode - keyAlias mapping
+@param array/object KeyCode - keyAlias mapping
+where array/object key is keyCode and value is key Alias name
+
+startListening/stopListening
+Start listening to keyDown/KeyUp events,
+if KeyB is not listening the alias keys are not marked as down
+and attached events are not executed.
+
+attachKeyDownEvent/attachKeyUpEvent
+Execute function when KeyDown/KeyUp event occures for Alias key
+@param string Key Alias
+@param function Function to be executed
+@return void
+
+deattachKeyDownEvent/deattachKeUpEvent
+Remove function attached to key Alias by attachKeyDownEvent/attachKeyUpEvent
+@param string Key Alias
+@param function Function that was attached
+@return void
+
+attachEvent
+Execute function on any keyDown/keyUp event
+But only for keys that have been defined in Alias list
+@param function Function to attach
+@return void
+
+deattachEvent
+Remove function attached by attachEvent
+@param function Function that was attached
+@return void
+
+---
+
+All attached events executed with 2 params
+@param string Key Alias name
+@param boolean True if triggered by keyDown event False if by keyUp event
+
 USAGE
 ===============================
 // set aliases

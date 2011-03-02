@@ -7,7 +7,7 @@ by keyboard interaction (see example to see result)
 
 KeyB allows:
  * set keyCode aliases (no need to use keyCodes in your code)
- * set same key alias for multiple keys
+ * set same key alias for multiple keys (multiple keys tirgger same event)
  * check if any defined key is currently down or not
  * attach keyDown events to certain keys (no need to check what key was pressed in function)
 

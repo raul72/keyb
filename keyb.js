@@ -142,7 +142,6 @@
 		if (!name || typeof keys !== 'object' || !keys.length) {
 			return false;
 		}
-		// TODO: should here be checked if key aliases have been defined?
 		lists[lists.length] = {
 			name: name,
 			keys: keys,

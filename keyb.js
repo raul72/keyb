@@ -12,7 +12,8 @@
 		aliases = {},
 		globalEvents = [],
 		keyUpEvents = [],
-		keyDownEvents = [];
+		keyDownEvents = [],
+		lists = [];
 
 	keyb.down = [];
 
@@ -45,6 +46,14 @@
 			for (i = 0; i < globalEvents.length; i++) {
 				if (typeof globalEvents[i] === 'function') {
 					globalEvents[i](key, !up);
+				}
+			}
+		}
+		// update lists lastkey
+		if (!up && lists.length) {
+			for (i = 0; i < lists.length; i++) {
+				if (lists[i].keys.indexOf(key) !== -1) {
+					lists[i].lastkey = key;
 				}
 			}
 		}
@@ -119,6 +128,76 @@
 			new_list[new_list.length] = globalEvents[i];
 		}
 		globalEvents = new_list;
+	};
+
+	/**
+	 * Create a new keys list
+	 *
+	 * @param name string List name
+	 * @param keys array List of key aliases
+	 * @return boolean
+	 */
+	keyb.createList = function(name, keys) {
+		if (!name || typeof keys !== 'object' || !keys.length) {
+			return false;
+		}
+		// TODO: should here be checked if key aliases have been defined?
+		lists[lists.length] = {
+			name: name,
+			keys: keys,
+			lastkey: false
+		};
+		return true;
+	};
+
+	/**
+	 * Get a key that is down in the list
+	 * preferred is the last key that was pressed, if that key is no longer down,
+	 * first key alias from the list is returned that is currently down
+	 *
+	 * @param name string List name
+	 * @return string|boolean key alias name if one of they keys from list is down, false if not
+	 */
+	keyb.getListKey = function(name) {
+		var list = false;
+		for (i = 0; i < lists.length; i++) {
+			if (lists[i].name === name) {
+				list = lists[i];
+			}
+		}
+		if (!list) {
+			return false;
+		}
+		if (list.lastkey && keyb.down[list.lastkey]) {
+			return list.lastkey;
+		}
+		for (i = 0; i < list.keys.length; i++) {
+			if (keyb.down[list.keys[i]]) {
+				return list.keys[i];
+			}
+		}
+		return false;
+	};
+
+	/**
+	 * Remove a keys list
+	 *
+	 * @param name string List name
+	 * @return boolean
+	 */
+	keyb.removeList = function(name) {
+		if (!lists.length) {
+			return false;
+		}
+		var i,
+			new_lists = [];
+		for (i = 0; i < lists.length; i++) {
+			if (lists[i].name !== name) {
+				new_lists[new_lists.length] = lists[i];
+			}
+		}
+		lists = new_lists;
+		return true;
 	};
 
 	function keyDownListener(event) {

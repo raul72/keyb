@@ -36,6 +36,7 @@
 			83: 'down',
 			68: 'right'
 		});
+		keyb.createList('move', ['left', 'right', 'up', 'down']);
 
 		$('#content').html(
 			$('<div/>').attr('id', 'obj')
@@ -53,32 +54,14 @@
 		var direction = '',
 			obj = $('#obj'),
 			max_left = $('#content').width()-obj.width(),
-			max_top = $('#content').height()-obj.height(),
-			lastkey = false;
-
-		// save last key that was pressed
-		keyb.attachEvent(function(key, down){
-			if (down) {
-				lastkey = key;
-			}
-		});
+			max_top = $('#content').height()-obj.height();
 
 		function moveme() {
 
-			// keybord interaction, where should object go
-			if (lastkey && keyb.down[lastkey]) {
-				// key that was presed last gets priority
-				direction = lastkey;
-			} else if (keyb.down.left) {
-				direction = 'left';
-			} else if (keyb.down.right) {
-				direction = 'right';
-			} else if (keyb.down.up) {
-				direction = 'up';
-			} else if (keyb.down.down) {
-				direction = 'down';
+			var key = keyb.getListKey('move');
+			if (key) {
+				direction = key;
 			} else {
-				// no movement key is down, don't move
 				direction = '';
 				return;
 			}

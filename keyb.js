@@ -119,7 +119,8 @@
 			return;
 		}
 		var found = false,
-			new_list = [];
+			new_list = [],
+			i;
 		for (i = 0; i < globalEvents.length; i++) {
 			if (!found && fn === globalEvents[i]) {
 				found = true;
@@ -159,7 +160,8 @@
 	 * @return string|boolean key alias name if one of they keys from list is down, false if not
 	 */
 	keyb.getListKey = function(name) {
-		var list = false;
+		var list = false,
+			i;
 		for (i = 0; i < lists.length; i++) {
 			if (lists[i].name === name) {
 				list = lists[i];

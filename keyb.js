@@ -156,9 +156,10 @@
 	 * first key alias from the list is returned that is currently down
 	 *
 	 * @param name string List name
+	 * @param lastkey boolean, If set true will return last pressed key of list if none of the keys are no longer down
 	 * @return string|boolean key alias name if one of they keys from list is down, false if not
 	 */
-	keyb.getListKey = function(name) {
+	keyb.getListKey = function(name, lastkey) {
 		var list = false,
 			i;
 		for (i = 0; i < lists.length; i++) {
@@ -176,6 +177,9 @@
 			if (keyb.down[list.keys[i]]) {
 				return list.keys[i];
 			}
+		}
+		if (lastkey) {
+			return list.lastkey;
 		}
 		return false;
 	};

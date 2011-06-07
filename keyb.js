@@ -183,6 +183,15 @@
 		}
 		return false;
 	};
+	keyb.clearListLastKey = function(name) {
+		var list = false,
+			i;
+		for (i = 0; i < lists.length; i++) {
+			if (lists[i].name === name) {
+				list = lists[i].lastkey = false;
+			}
+		}
+	}
 
 	/**
 	 * Remove a keys list

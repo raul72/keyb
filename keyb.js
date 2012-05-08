@@ -58,12 +58,21 @@
 			}
 		}
 	}
-
+	function getInputArray(i) {
+		switch (typeof i) {
+			case 'string':
+				return i.split(' ');
+			case 'object':
+				return i;
+			default:
+				return [i];
+		}
+	}
 	function attachEvent(keys, event, fn) {
 		if (typeof fn !== 'function') {
 			return;
 		}
-		keys = keys.split(' ');
+		keys = getInputArray(keys);
 		var i = 0, key;
 		while (key = keys[i++]) {
 			if (!event[key]) {
@@ -81,7 +90,7 @@
 	};
 
 	function deattachEvent(keys, event, fn) {
-		keys = keys.split(' ');
+		keys = getInputArray(keys);
 		var i = 0, key;
 		while (key = keys[i++]) {
 			if (!event[key] || !event[key].length || typeof fn !== 'function') {
